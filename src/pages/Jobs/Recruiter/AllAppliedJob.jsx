@@ -25,11 +25,11 @@ export default function AllAppliedJob() {
   }, []);
 
   return (
-    <div className="bg-mint">
+    <div className="bg-mint pb-36 pt-5">
       <h1 className="text-4xl text-center font-semibold text-black py-4">
         Your Job posts.
       </h1>
-      <div className="mx-auto grid grid-cols-3 gap-5 py-10 container px-10">
+      <div className="mx-auto grid grid-cols-3 gap-7 py-10 px-32">
         {applications.map((application) => (
           <button
             onClick={() => handleClickDetail(application.id)}
