@@ -341,7 +341,7 @@ function JobListing() {
         </div>
       )}
 
-      <div className="flex mx-[2px] grid grid-cols-4 gap-2 py-10 place-items-end px-20">
+      <div className="mx-[2px] grid grid-cols-4 gap-2 py-10 place-items-end px-20">
         {jobList.job_listing.map((job) => (
           <JobCard key={job.id} job={job} className="job-card" />
         ))}
