@@ -5,6 +5,7 @@ import { updateStatus } from "../../../fetching/updateStatus";
 import { IconButton } from "@chakra-ui/react";
 import { FaFileLines } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom"
+import Loading from "../../../components/Loading";
 import convertToRupiah from "../../../lib/converty";
 import Swal from "sweetalert2";
 
@@ -13,22 +14,27 @@ export default function AppliedJobByID() {
   const [jobDetail, setJobDetail] = useState({});
   const navigate = useNavigate();
   const [status, setStatus] = useState([]);
+  const [isLoading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   console.log(status);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchAppliedById(id);
-        setJobDetail(data);
-        setStatus(data.status);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  async function fetchData() {
+      const data = await fetchAppliedById(id);
+      setJobDetail(data);
+      setStatus(data.status);
+      setLoading(false)
+  }
 
+  useEffect(() => {
+    setLoading(true)
     fetchData();
   }, []);
+
+  if (isLoading) {
+    return (
+      <Loading />
+    );
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -59,34 +65,35 @@ export default function AppliedJobByID() {
 
   return (
     <div className="flex justify-center pb-60 bg-mint">
-      <div className="min-w-[80%]">
+      <div className="min-w-[70%]">
         <div>
-          <div className="flex justify-between">
+          <div className="justify-between">
             {/* Header */}
             <div className="mt-[40px] ">
               <h2 className="font-normal">
-                {jobDetail.JobListing?.CompanyProfile?.name}
+                {jobDetail[0]?.JobListing?.CompanyProfile?.name}
               </h2>
 
               <h1 className="text-6xl font-semibold">
-                {jobDetail.JobListing?.title}
+                {jobDetail[0]?.JobListing?.title}
+
               </h1>
             </div>
 
             <div className="mt-[60px] mr-[200px]">
               {/* user Side */}
               <div className="flex gap-2 mt-5 text-[20px] font-semibold">
-                <h1>{jobDetail.User?.first_name}</h1>
-                <h1>{jobDetail.User?.last_name}</h1>
+                <h1>{jobDetail[0]?.User?.first_name}</h1>
+                <h1>{jobDetail[0]?.User?.last_name}</h1>
               </div>
-              <a href={jobDetail.resume}>
+              <a href={jobDetail[0]?.resume}>
                 <IconButton
                   boxSize={20}
                   fontSize={30}
                   icon={<FaFileLines />}
                 ></IconButton>
               </a>
-              <div className="mt-5">{jobDetail.resume}</div>
+              <div className="mt-5">{jobDetail[0]?.resume}</div>
 
               <select
                 value={status}
@@ -119,8 +126,8 @@ export default function AppliedJobByID() {
                 <div className="flex flex-col items-center">
                   <h3 className="text-md font-bold">Type</h3>
                   <div>
-                    {jobDetail.JobListing?.Types &&
-                      jobDetail.JobListing?.Types.map((type) => (
+                    {jobDetail[0]?.JobListing?.Types &&
+                      jobDetail[0]?.JobListing?.Types.map((type) => (
                         <div key={type.id}>
                           <p>{type.title}</p>
                         </div>
@@ -133,7 +140,7 @@ export default function AppliedJobByID() {
               <div>
                 <div className="flex flex-col items-center">
                   <h3 className="text-md font-bold">Location</h3>
-                  <p>{jobDetail.JobListing?.location}</p>
+                  <p>{jobDetail[0]?.JobListing?.location}</p>
                 </div>
               </div>
 
@@ -142,8 +149,8 @@ export default function AppliedJobByID() {
                 <div className="flex flex-col items-center">
                   <h3 className="text-md font-bold">Salary</h3>
                   <p>
-                    {convertToRupiah(Number(jobDetail.JobListing?.salary_start))} -{" "}
-                    {convertToRupiah(Number(jobDetail.JobListing?.salary_end))}
+                    {convertToRupiah(Number(jobDetail[0]?.JobListing?.salary_start))} -{" "}
+                    {convertToRupiah(Number(jobDetail[0]?.JobListing?.salary_end))}
                   </p>
                 </div>
               </div>
@@ -154,7 +161,7 @@ export default function AppliedJobByID() {
           {/* Description */}
           <h2 className="mt-10 mb-0 font-semibold">Job Description</h2>
           <div className="bg-black bg-opacity-20 rounded-md p-4 border-black border-opacity-80">
-            <p>{jobDetail.JobListing?.description}</p>
+            <p>{jobDetail[0]?.JobListing?.description}</p>
           </div>
           {/* Description End */}
 
@@ -162,8 +169,8 @@ export default function AppliedJobByID() {
           <h2 className="mb-0 mt-10 font-semibold">Job Requirements</h2>
           <div className=" p-3 border-black border-2 rounded-md">
             <div className="grid grid-cols-4 gap-4">
-              {jobDetail.JobListing?.Skills &&
-                jobDetail.JobListing?.Skills.map((skill) => (
+              {jobDetail[0]?.JobListing?.Skills &&
+                jobDetail[0]?.JobListing?.Skills.map((skill) => (
                   <div
                     key={skill.id}
                     className="min-w-[120px] mb-3 p-3 rounded-md"
@@ -182,10 +189,10 @@ export default function AppliedJobByID() {
 
           {/* About Company */}
           <h2 className="mt-10 mb-0 font-semibold">
-            About {jobDetail.JobListing?.CompanyProfile?.name}
+            About {jobDetail[0]?.JobListing?.CompanyProfile?.name}
           </h2>
           <h3 className="bg-black bg-opacity-20 rounded-md p-4 border-black border-opacity-80">
-            {jobDetail.JobListing?.CompanyProfile?.description}
+            {jobDetail[0]?.JobListing?.CompanyProfile?.description}
           </h3>
           <button
             onClick={handleCompanyDetail}
@@ -201,17 +208,17 @@ export default function AppliedJobByID() {
         <div className="mt-[10px] mr-[10px]">
               {/* user Side */}
               <div className="flex gap-2 mt-5 text-[20px] font-regular">
-                <h1>{jobDetail.User?.first_name}</h1>
-                <h1>{jobDetail.User?.last_name}</h1>
+                <h1>{jobDetail[0]?.User?.first_name}</h1>
+                <h1>{jobDetail[0]?.User?.last_name}</h1>
               </div>
-              <a href={jobDetail.resume}>
+              <a href={jobDetail[0]?.resume}>
                 <IconButton
                   boxSize={20}
                   fontSize={30}
                   icon={<FaFileLines />}
                 ></IconButton>
               </a>
-              <div className="mt-5">{jobDetail.resume}</div>
+              <div className="mt-5">{jobDetail[0]?.resume}</div>
 
               <select
                 value={status}

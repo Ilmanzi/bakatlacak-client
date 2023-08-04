@@ -11,7 +11,7 @@ export default function ApplyCard({ applications }) {
         <div className="w-full h-full group bg-white p-4 job-card rounded-xl justify-items-start items-start">
           <div className="flex">
             <img
-              className="aspect-[2/2] w-16 flex-none"
+              className="aspect-[2/2] w-16 h-16 flex-none"
               src="https://idn-static-assets.s3-ap-southeast-1.amazonaws.com/school/10284.png"
               alt="Company Logo"
             />
