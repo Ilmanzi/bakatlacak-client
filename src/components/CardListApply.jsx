@@ -1,31 +1,31 @@
 import { updateStatus } from "../fetching/updateStatus";
 import { fetchAppliedById } from "../fetching/appliedJobById";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { IconButton } from "@chakra-ui/react";
 import { FaFileLines } from "react-icons/fa6";
+import Swal from "sweetalert2";
 
-export default function CardListApply({jobDetail}) {
+export default function CardListApply({jobDetail, fetchData}) {
 
     const [status, setStatus] = useState(jobDetail.status);
+    const { id } = useParams();
+    
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+    const handleSubmit = async () => {
         try {
           await updateStatus(id, status);
     
           const updatedData = await fetchAppliedById(id);
-          setJobDetail(updatedData);
-          setSuccess(true);
           Swal.fire({
             icon: "success",
             title: "Status Updated!",
-            timer: 3000,
+            timer: 1500,
             timerProgressBar: false,
-            onClose: () => {
-              setSuccess(false);
-            },
+            showConfirmButton: false,
           });
           console.log("Status updated successfully!");
+          fetchData()
         } catch (error) {
           console.error("Error updating status:", error);
         }
@@ -40,8 +40,10 @@ export default function CardListApply({jobDetail}) {
                 <h1>{jobDetail?.User?.first_name}</h1>
                 <h1>{jobDetail?.User?.last_name}</h1>
               </div>
-              <span className="text-xs text-black">Gender: {jobDetail?.User?.gender}</span> <br></br>
-              <span className="text-xs text-black">Email: {jobDetail?.User?.email}</span>
+              <span className="text-black text-sm">Gender: {jobDetail?.User?.gender}</span> <br></br>
+              <span className="text-black text-sm">Email: {jobDetail?.User?.email}</span> <br></br>
+              <hr className="mt-1"></hr>
+              <span className=" text-black text-sm">Status: {jobDetail?.status}</span>
             </div>
             <div className="flex-none">
               <a href={jobDetail?.resume}>
@@ -59,9 +61,6 @@ export default function CardListApply({jobDetail}) {
               onChange={(e) => setStatus(e.target.value)}
               className="grow pl-2 mt-2 border border-gray-300 rounded-md placeholder-font-light placeholder-text-gray-500 mr-4"
             >
-              <option>
-                {jobDetail.status}
-              </option>
               <option value="onreview">onreview</option>
               <option value="accepted">accepted</option>
               <option value="rejected">rejected</option>

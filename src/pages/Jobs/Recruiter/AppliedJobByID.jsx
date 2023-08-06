@@ -55,7 +55,7 @@ export default function AppliedJobByID() {
             <h1 className="mt-5 text-xl pl-1 pb-2">Applicants</h1>
             <div className="grid grid-cols-4 gap-2">
               {jobDetail.map((jobDetail, index) => {
-                return <CardListApply jobDetail={jobDetail} key={index} />
+                return <CardListApply jobDetail={jobDetail} key={index} fetchData={fetchData} />
               })}
             </div>
             {/* Header End */}
