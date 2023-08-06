@@ -1,28 +1,22 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchAppliedById } from "../../../fetching/appliedJobById";
-import { updateStatus } from "../../../fetching/updateStatus";
-import { IconButton } from "@chakra-ui/react";
-import { FaFileLines } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom"
 import Loading from "../../../components/Loading";
 import convertToRupiah from "../../../lib/converty";
 import Swal from "sweetalert2";
+import CardListApply from "../../../components/CardListApply";
 
 export default function AppliedJobByID() {
   const { id } = useParams();
-  const [jobDetail, setJobDetail] = useState({});
+  const [jobDetail, setJobDetail] = useState([]);
   const navigate = useNavigate();
-  const [status, setStatus] = useState([]);
-  const [isLoading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  console.log(status);
+  const [isLoading, setLoading] = useState(true);
 
   async function fetchData() {
-      const data = await fetchAppliedById(id);
-      setJobDetail(data);
-      setStatus(data.status);
-      setLoading(false)
+    const data = await fetchAppliedById(id);
+    setJobDetail(data);
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -35,29 +29,6 @@ export default function AppliedJobByID() {
       <Loading />
     );
   }
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      await updateStatus(id, status);
-
-      const updatedData = await fetchAppliedById(id);
-      setJobDetail(updatedData);
-      setSuccess(true);
-      Swal.fire({
-        icon: "success",
-        title: "Status Updated!",
-        timer: 3000,
-        timerProgressBar: false,
-        onClose: () => {
-          setSuccess(false);
-        },
-      });
-      console.log("Status updated successfully!");
-    } catch (error) {
-      console.error("Error updating status:", error);
-    }
-  };
 
   const handleCompanyDetail = () => {
     navigate(`/companydetail/${id}`)
@@ -80,40 +51,12 @@ export default function AppliedJobByID() {
               </h1>
             </div>
 
-            <div className="mt-[60px] mr-[200px]">
-              {/* user Side */}
-              <div className="flex gap-2 mt-5 text-[20px] font-semibold">
-                <h1>{jobDetail[0]?.User?.first_name}</h1>
-                <h1>{jobDetail[0]?.User?.last_name}</h1>
-              </div>
-              <a href={jobDetail[0]?.resume}>
-                <IconButton
-                  boxSize={20}
-                  fontSize={30}
-                  icon={<FaFileLines />}
-                ></IconButton>
-              </a>
-              <div className="mt-5">{jobDetail[0]?.resume}</div>
-
-              <select
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
-                className="p-2 border border-gray-300 rounded-md placeholder-font-light placeholder-text-gray-500 mr-4"
-              >
-                <option value="" disabled defaultValue>
-                  Choose your role
-                </option>
-                <option value="onreview">onreview</option>
-                <option value="accepted">accepted</option>
-                <option value="rejected">rejected</option>
-              </select>
-
-              <button
-                onClick={handleSubmit}
-                className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl mt-[20px]"
-              >
-                Confirm
-              </button>
+            {/* user Side */}
+            <h1 className="mt-5 text-xl pl-1 pb-2">Applicants</h1>
+            <div className="grid grid-cols-4 gap-2">
+              {jobDetail.map((jobDetail, index) => {
+                return <CardListApply jobDetail={jobDetail} key={index} />
+              })}
             </div>
             {/* Header End */}
           </div>
@@ -202,12 +145,12 @@ export default function AppliedJobByID() {
           </button>
           {/* About Company End */}
         </div>
-        <h1 className="flex font-bold text-black text-[20px] mt-8">
+        {/* <h1 className="flex font-bold text-black text-[20px] mt-8">
                 Applicants
-        </h1>
-        <div className="mt-[10px] mr-[10px]">
-              {/* user Side */}
-              <div className="flex gap-2 mt-5 text-[20px] font-regular">
+        </h1> */}
+        {/* <div className="mt-[10px] mr-[10px]"> */}
+        {/* user Side */}
+        {/* <div className="flex gap-2 mt-5 text-[20px] font-regular">
                 <h1>{jobDetail[0]?.User?.first_name}</h1>
                 <h1>{jobDetail[0]?.User?.last_name}</h1>
               </div>
@@ -239,7 +182,7 @@ export default function AppliedJobByID() {
               >
                 Confirm
               </button>
-            </div>
+            </div> */}
       </div>
     </div>
   );
