@@ -8,14 +8,13 @@ import Swal from "sweetalert2";
 
 export default function CardListApply({jobDetail, fetchData}) {
 
-    const [status, setStatus] = useState(jobDetail.status);
+    const [status, setStatus] = useState(jobDetail?.status);
     const { id } = useParams();
     
 
     const handleSubmit = async () => {
         try {
-          await updateStatus(id, status);
-    
+          await updateStatus({id: id, status: status, user_id: jobDetail.User.id });
           const updatedData = await fetchAppliedById(id);
           Swal.fire({
             icon: "success",
@@ -57,7 +56,6 @@ export default function CardListApply({jobDetail, fetchData}) {
           </div>
           <div className="flex">
             <select
-              value={status}
               onChange={(e) => setStatus(e.target.value)}
               className="grow pl-2 mt-2 border border-gray-300 rounded-md placeholder-font-light placeholder-text-gray-500 mr-4"
             >

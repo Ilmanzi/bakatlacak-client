@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchAppliedById } from "../../../fetching/appliedJobById";
+import { jobListingById } from "../../../fetching/job_listing";
 import { useNavigate } from "react-router-dom"
 import Loading from "../../../components/Loading";
 import convertToRupiah from "../../../lib/converty";
@@ -10,11 +11,14 @@ import CardListApply from "../../../components/CardListApply";
 export default function AppliedJobByID() {
   const { id } = useParams();
   const [jobDetail, setJobDetail] = useState([]);
+  const [jobList, setJobList] = useState({})
   const navigate = useNavigate();
   const [isLoading, setLoading] = useState(true);
 
   async function fetchData() {
     const data = await fetchAppliedById(id);
+    const dataJob = await jobListingById(id);
+    setJobList(dataJob)
     setJobDetail(data);
     setLoading(false)
   }
@@ -42,11 +46,11 @@ export default function AppliedJobByID() {
             {/* Header */}
             <div className="mt-[40px] ">
               <h2 className="font-normal">
-                {jobDetail[0]?.JobListing?.CompanyProfile?.name}
+                {jobList?.CompanyProfile?.name}
               </h2>
 
               <h1 className="text-6xl font-semibold">
-                {jobDetail[0]?.JobListing?.title}
+                {jobList?.title}
 
               </h1>
             </div>
@@ -69,8 +73,8 @@ export default function AppliedJobByID() {
                 <div className="flex flex-col items-center">
                   <h3 className="text-md font-bold">Type</h3>
                   <div>
-                    {jobDetail[0]?.JobListing?.Types &&
-                      jobDetail[0]?.JobListing?.Types.map((type) => (
+                    {jobList?.Types &&
+                      jobList?.Types.map((type) => (
                         <div key={type.id}>
                           <p>{type.title}</p>
                         </div>
@@ -83,7 +87,7 @@ export default function AppliedJobByID() {
               <div>
                 <div className="flex flex-col items-center">
                   <h3 className="text-md font-bold">Location</h3>
-                  <p>{jobDetail[0]?.JobListing?.location}</p>
+                  <p>{jobList?.location}</p>
                 </div>
               </div>
 
@@ -92,8 +96,8 @@ export default function AppliedJobByID() {
                 <div className="flex flex-col items-center">
                   <h3 className="text-md font-bold">Salary</h3>
                   <p>
-                    {convertToRupiah(Number(jobDetail[0]?.JobListing?.salary_start))} -{" "}
-                    {convertToRupiah(Number(jobDetail[0]?.JobListing?.salary_end))}
+                    {convertToRupiah(Number(jobList?.salary_start))} -{" "}
+                    {convertToRupiah(Number(jobList?.salary_end))}
                   </p>
                 </div>
               </div>
@@ -104,7 +108,7 @@ export default function AppliedJobByID() {
           {/* Description */}
           <h2 className="mt-10 mb-0 font-semibold">Job Description</h2>
           <div className="bg-black bg-opacity-20 rounded-md p-4 border-black border-opacity-80">
-            <p>{jobDetail[0]?.JobListing?.description}</p>
+            <p>{jobList?.description}</p>
           </div>
           {/* Description End */}
 
@@ -112,8 +116,8 @@ export default function AppliedJobByID() {
           <h2 className="mb-0 mt-10 font-semibold">Job Requirements</h2>
           <div className=" p-3 border-black border-2 rounded-md">
             <div className="grid grid-cols-4 gap-4">
-              {jobDetail[0]?.JobListing?.Skills &&
-                jobDetail[0]?.JobListing?.Skills.map((skill) => (
+              {jobList?.Skills &&
+                jobList?.Skills.map((skill) => (
                   <div
                     key={skill.id}
                     className="min-w-[120px] mb-3 p-3 rounded-md"
@@ -132,10 +136,10 @@ export default function AppliedJobByID() {
 
           {/* About Company */}
           <h2 className="mt-10 mb-0 font-semibold">
-            About {jobDetail[0]?.JobListing?.CompanyProfile?.name}
+            About {jobList?.CompanyProfile?.name}
           </h2>
           <h3 className="bg-black bg-opacity-20 rounded-md p-4 border-black border-opacity-80">
-            {jobDetail[0]?.JobListing?.CompanyProfile?.description}
+            {jobList?.CompanyProfile?.description}
           </h3>
           <button
             onClick={handleCompanyDetail}

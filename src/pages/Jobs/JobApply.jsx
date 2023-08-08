@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate} from "react-router-dom";
 import { useDropzone } from "react-dropzone";
 import fetchJobApply from "../../fetching/jobApply";
 import Swal from "sweetalert2";
@@ -10,6 +10,12 @@ export default function JobApply() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const [resumeFile, setResumeFile] = useState(null); // Initialize to null
+  const navigate = useNavigate()
+
+  const checkToken = localStorage.getItem("token")
+  if (!checkToken) {
+    navigate(`/login`)
+  }
 
   const handleFileChange = (acceptedFiles) => {
     setError(null);
@@ -59,6 +65,8 @@ export default function JobApply() {
     accept: ".pdf,.doc,.docx",
     onDrop: handleFileChange,
   });
+
+
 
   return (
     <div className="bg-mint flex py-40 px-40 justify-center bg-gradient-to-r from-navy to-teal">

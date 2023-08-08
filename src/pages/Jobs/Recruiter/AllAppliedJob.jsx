@@ -30,7 +30,7 @@ export default function AllAppliedJob() {
         Your Job posts.
       </h1>
       <div className="mx-auto grid grid-cols-3 gap-7 py-10 px-32">
-        {applications.map((application) => (
+        {applications?.map((application) => (
           <button
             onClick={() => handleClickDetail(application.id)}
             type="button"
