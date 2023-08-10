@@ -2,11 +2,14 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import { useStore } from "../modules/store";
 import { login } from "../fetching/auth";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const setUser = useStore((state) => state.setUser);
+
+  const navigate = useNavigate();
 
   async function handleLogin() {
     try {
@@ -27,6 +30,10 @@ export default function Login() {
         timer: 1500,
       });
     }
+  }
+
+  async function HandleRegister() {
+    navigate("/register");
   }
 
   return (
@@ -67,7 +74,7 @@ export default function Login() {
             <div className="text-center text-gray-400">
               Dont have an account?
               
-              <a href="api/auth/register"><span className="font-semibold text-navy"> Sign up here</span></a>
+              <a href="/register"><span className="font-semibold text-navy"> Sign up here</span></a>
             </div>
           </div>
         </div>
