@@ -113,6 +113,16 @@ function JobListing() {
     refetchData(params);
   };
 
+  const HandleKeyDownEnter = async (event) => {
+    let params = {};
+
+    if (q) params.q = q;
+
+    if (event.key === 'Enter') {
+      refetchData(params);
+    }
+  }
+
   const handleSearchFilter = async () => {
     let params = {};
     if (filterTypes.length !== 0) {
@@ -212,11 +222,13 @@ function JobListing() {
             placeholder="Find..."
             value={q}
             onChange={(e) => setQ(e.target.value)}
+            onKeyDown={HandleKeyDownEnter}
           />
           <button
             onClick={handleSearch}
             type="button"
             className="bg-black text-white rounded-xl px-4 py-2 ml-2"
+            
           >
             Search
           </button>
