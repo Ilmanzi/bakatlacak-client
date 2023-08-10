@@ -67,7 +67,7 @@ export default function Login() {
             <div className="text-center text-gray-400">
               Dont have an account?
               
-              <a href="/register"><span className="font-semibold text-navy"> Sign up here</span></a>
+              <a href="api/auth/register"><span className="font-semibold text-navy"> Sign up here</span></a>
             </div>
           </div>
         </div>
