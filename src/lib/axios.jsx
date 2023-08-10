@@ -1,5 +1,6 @@
 import axios from "axios"
-const baseURL = "http://localhost:7000/api"
+// const baseURL = "http://localhost:7000/api"
+const baseURL = "https://bakatlacak-server.up.railway.app/api"
 
 
 const instance = axios.create({
