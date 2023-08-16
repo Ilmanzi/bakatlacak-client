@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { jobListing } from "../fetching/job_listing";
-import convertToRupiah from "../lib/converty";
-import { TypeAnimation } from 'react-type-animation';
+import JobCard from "../components/JobCard";
 import TypeAnimate from "../components/TypeAnimation";
 
 export default function Home() {
@@ -34,31 +33,32 @@ export default function Home() {
     <section>
       {/* Heading */}
       <div className="flex background-home px-4 py-10 w-full h-80% shadow-md justify-center items-center flex-row"></div>
-        <div className="flex lg:items-center lg:gap-x-16 px-40 h-[650px] landing-content">
-          <div className="landing-content max-w-2lg text-center lg:mx-0 ltr:lg:text-left rtl:lg:text-right">
-            <h2 className="text-3xl font-bold sm:text-7xl text-black">
-              Find your career path <br></br> <TypeAnimate/>
-            </h2>
+      <div className="flex items-center gap-x-16 min-[320px]:px-5 md:px-10 lg:px-40 min-[320px]:h-[400px] lg:h-[650px] landing-content">
+        <div className="landing-content text-center mx-0">
+          <h2 className="font-bold text-black min-[320px]:text-3xl md:text-5xl lg:text-7xl">
+            Find your career path <br></br> <TypeAnimate fontSize={{ base: '24px', md: '40px', lg: '56px' }} />
+          </h2>
 
-            <p className="mt-4 font-regular text-black">
-              Initiate your journey towards your dream job by uncovering your
-              talents through BakatLacak. Exceptional companies, esteemed and
-              well-established, actively seek your presence, offering an
-              integrated platform for your success.
-            </p>
 
-            <button
-              onClick={() => handleButton("/job")}
-              className="mt-8 inline-block rounded bg-[#001C30] px-12 py-3 text-sm font-medium text-white transition hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-yellow-400"
-            >
-              Get Started Today
-            </button>
-          </div>
+          <p className="mt-4 font-regular text-black min-[320px]:text-xs lg:text-sm">
+            Initiate your journey towards your dream job by uncovering your
+            talents through BakatLacak. Exceptional companies, esteemed and
+            well-established, actively seek your presence, offering an
+            integrated platform for your success.
+          </p>
+
+          <button
+            onClick={() => handleButton("/job")}
+            className="mt-8 inline-block rounded bg-[#001C30] px-12 py-3 text-sm font-medium text-white transition hover:bg-indigo-700 focus:outline-none focus:ring focus:ring-yellow-400"
+          >
+            Get Started Today
+          </button>
         </div>
+      </div>
 
       {/* Flow */}
-      <div className="min-h-screen w-full flex flex-col justify-center items-center py-10 bg-mint">
-        <h1 className="text-3xl font-bold sm:text-4xl text-black mb-[50px]">
+      <div className="py-20 w-full flex flex-col justify-center items-center bg-mint">
+        <h1 className="text-center min-[320px]:mx-10 font-bold min-[320px]:text-4xl text-black mb-[50px]">
           How exactly you apply for a job
         </h1>
         <div className="flex gap-10 flex-col lg:flex-row">
@@ -117,67 +117,36 @@ export default function Home() {
           </div>
         </div>
         <div className="flex justify-center">
-        <button
-          
-          onClick={() => handleButton("/job")}
-          className="mt-20 uppercase rounded-full bg-black px-8 py-4 text-xl text-white transition hover:bg-white hover:text-black focus:outline-none focus:ring focus:ring-yellow-400"
-        >
-          find your next job
-        </button>
-      </div>
+          <button
+
+            onClick={() => handleButton("/job")}
+            className="mt-20 uppercase rounded-full bg-black px-8 py-4 text-xl text-white transition hover:bg-white hover:text-black focus:outline-none focus:ring focus:ring-yellow-400"
+          >
+            find your next job
+          </button>
+        </div>
 
       </div>
       {/* Flow End */}
 
       {/* Job Overview */}
-      <h1 className="bg-mint flex justify-center text-3xl font-bold sm:text-4xl text-black pt-10 pb-4">
-          Available Jobs
+      <h1 className="bg-mint flex justify-center text-3xl font-bold min-[320px]:text-4xl text-black pt-10 ">
+        Available Jobs
       </h1>
-      <div className="bg-gradient-to-b from-mint to-black  pb-20 pt-10 flex flex-wrap flex-row justify-center shadow-md">
-        
-        {jobCard.map((jobCard) => (
-          <div
-            className="flex w-[30%] max-h-60% my-4 gap-x-1 justify-center job-card"
-            key={jobCard.id} 
+      <div className="bg-gradient-to-b from-mint to-black pb-20 pt-10">
+        <div className="mx-[2px] grid min-[320px]:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 py-10 place-items-end min-[320px]:px-5 md:px-15 lg:px-20">
+          {jobCard.map((job, index) => (
+            <JobCard key={index} job={job} className="job-card" />
+          ))}
+        </div>
+        <div className="flex justify-center">
+          <button
+            onClick={() => handleButton("/job")}
+            className="uppercase rounded-full bg-white px-8 py-4 text-xl text-black transition hover:bg-black hover:text-white"
           >
-            <div className="w-[90%] group bg-white p-4 rounded-xl">
-              <div className="flex items-center gap-x-2">
-                <img
-                  className="aspect-[2/2] w-16"
-                  src="https://idn-static-assets.s3-ap-southeast-1.amazonaws.com/school/10284.png"
-                />
-                <div>
-                  <h3 className="text-xl font-bold text-black">
-                    {jobCard.CompanyProfile?.name}
-                  </h3>
-                  <span className="text-xs text-black">{jobCard.location}</span>
-                </div>
-              </div>
-              <div className="my-4">
-                <h3 className="text-2xl font-medium text-black">
-                  {jobCard.title}
-                </h3>
-
-                <div className="mt-2 text-sm text-black">
-                  {convertToRupiah(jobCard.salary_start)} - {convertToRupiah(jobCard.salary_end)}
-                </div>
-              </div>
-              <button
-            onClick={() => handleDetail(jobCard.id)}
-            type="button"
-            className="mt-[20] font-medium bg-black text-white w-[30%] rounded-xl"
-          >
-            Detail
+            more jobs
           </button>
-            </div>
-          </div>
-        ))}
-        <button
-          onClick={() => handleButton("/job")}
-          className="mt-10 uppercase rounded-full bg-white px-8 py-4 text-xl text-black transition hover:bg-black hover:text-white"
-        >
-          more jobs
-        </button>
+        </div>
       </div>
     </section>
   );

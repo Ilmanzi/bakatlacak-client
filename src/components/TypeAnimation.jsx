@@ -24,7 +24,7 @@ export default function TypeAnimate() {
                     3000,
                 ]}
                 speed={10}
-                style={{ fontSize: 60 }}
+                className="sm:text-3xl md:text-4xl lg:text-7xl"
                 repeat={Infinity}
             />
         </>

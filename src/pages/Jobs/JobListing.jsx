@@ -209,14 +209,14 @@ function JobListing() {
   return (
     <div className="bg-mint pb-20">
       {/* Header */}
-      <h1 className="text-4xl text-center font-semibold text-black mb-4">
+      <h1 className="text-4xl text-center font-semibold text-black mb-4 pt-5">
         Jobs
       </h1>
       <div className="flex justify-center shadow-sm py-1">
         <div className="mt-4 mb-5">
           {/* Search */}
           <input
-            className="w-96 rounded-xl border border-solid border-black bg-transparent bg-clip-padding px-3 py-[0.35rem] text-base font-normal leading-[1.6] text-black outline-none focus:z-[3] focus:border-teal focus:text-black focus:shadow-[inset_0_0_0_1px_rgb(100,204,197)] focus:outline-none"
+            className="lg:w-96 sm:w-60 min-[320px]:w-40 rounded-xl border border-solid border-black bg-transparent bg-clip-padding px-3 py-[0.35rem] text-base font-normal leading-[1.6] text-black outline-none focus:z-[3] focus:border-teal focus:text-black focus:shadow-[inset_0_0_0_1px_rgb(100,204,197)] focus:outline-none"
             type="text"
             name="q"
             placeholder="Find..."
@@ -353,7 +353,7 @@ function JobListing() {
         </div>
       )}
 
-      <div className="mx-[2px] grid grid-cols-4 gap-2 py-10 place-items-end px-20">
+      <div className="mx-[2px] grid min-[320px]:grid-cols-1 lg:grid-cols-4 md:grid-cols-2 gap-2 py-10 place-items-end lg:px-14 min-[320px]:px-5">
         {jobList.job_listing.map((job) => (
           <JobCard key={job.id} job={job} className="job-card" />
         ))}
