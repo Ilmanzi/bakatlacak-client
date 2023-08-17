@@ -37,7 +37,7 @@ export default function Login() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen h-14 bg-gradient-to-r from-black to-navy">
+    <div className="flex items-center justify-center h-144 bg-gradient-to-r from-black to-navy">
       <div className="flex items-center justify-center w-full h-full">
         <div className="relative bg-white rounded-lg w-[90%] max-w-[500px] p-8">
           {/* left side */}

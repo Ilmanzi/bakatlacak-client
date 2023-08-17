@@ -40,7 +40,7 @@ export default function Home() {
           </h2>
 
 
-          <p className="mt-4 font-regular text-black min-[320px]:text-xs lg:text-sm">
+          <p className="mt-4 font-regular text-black min-[320px]:text-xs md:text-sm lg:text-lg">
             Initiate your journey towards your dream job by uncovering your
             talents through BakatLacak. Exceptional companies, esteemed and
             well-established, actively seek your presence, offering an

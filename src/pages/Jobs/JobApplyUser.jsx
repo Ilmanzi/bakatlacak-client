@@ -24,7 +24,7 @@ export default function JobApplications() {
       <h1 className="text-4xl text-center font-semibold text-black pt-5">
         Your Applications
       </h1>
-      <div className="mx-[2px] grid grid-cols-3 gap-7 py-10 px-28">
+      <div className="mx-[2px] grid lg:grid-cols-3 min-[320px]:grid-cols-1 gap-7 py-10 md:px-28 min-[320px]:px-5">
         {applications.map((application) => (
           <ApplyCardUser key={application.id} applications={application} />
         ))}

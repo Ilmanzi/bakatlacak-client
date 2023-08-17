@@ -59,7 +59,7 @@ function CompanyProfileUser() {
             Create New
           </Button>
         )}
-        <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={3} pb={100} pt={10}>
+        <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={3} pb={100} pt={10} px={5}>
           {companyProfiles.length > 0 ? (
             companyProfiles.map((profile) => (
               <Box

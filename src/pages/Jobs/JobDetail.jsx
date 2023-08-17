@@ -42,7 +42,7 @@ export default function JobDetail() {
   };
 
   const handleCompanyDetail = () => {
-    navigate(`/companydetail/${id}`);
+    navigate(`/companydetail/${jobDetail.company_id}`);
   };
 
   return (
